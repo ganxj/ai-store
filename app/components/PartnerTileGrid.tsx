@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Partner } from '~/types/partners'
+import { Product } from '~/types/products'
+import {SwiperSlide} from "swiper/react";
 
 export default function PartnerTileGrid({
   partnersByCategory,
   hideCategories = false,
 }: {
-  partnersByCategory: { [category: string]: Partner[] }
+  partnersByCategory: { [category: string]: Product[] }
   hideCategories?: boolean
 }) {
   return (
@@ -16,7 +17,7 @@ export default function PartnerTileGrid({
           {!hideCategories && <h2 className="h2">{category}</h2>}
           <div className="grid  gap-5 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:max-w-none">
             {partnersByCategory[category].map((p) => (
-              <Link key={p.slug} href={`/partners/${p.slug}`}>
+              <Link key={p.slug} href={p.have_detail?`/${p.slug}`:p.website_url}>
                 <a
                   className="
                 "
@@ -34,22 +35,32 @@ export default function PartnerTileGrid({
                 
                 hover:shadow-lg"
                   >
+
                     <div className="flex w-full space-x-6">
-                      <div className="w-10 h-10 transition-all scale-100 group-hover:scale-110">
+                      <div className="w-60 h-40 transition-all ">
                         <Image
-                          layout="fixed"
-                          width={40}
-                          height={40}
-                          className="w-10 h-10 bg-gray-300 rounded-full"
-                          src={p.logo}
-                          alt={p.title}
+                            width={600}
+                            height={400}
+                            className="w-60 h-40 bg-gray-300 transition-all"
+                            src={p.logo}
+                            alt={p.name}
                         />
                       </div>
+                    </div>
+                    <div className="flex w-full space-x-6">
                       <div>
                         <h3 className="transition-colors text-xl text-scale-1100 group-hover:text-scale-1200 mb-2">
-                          {p.title}
+                          {p.name}
                         </h3>
                         <p className="text-sm text-scale-900">{p.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex w-full space-x-6 my-1">
+                      <div>
+                        {p.tags.map((tag: any, i: number) => (
+                            <span className="transition-colors inline-flex items-center rounded-md  px-2 py-1 mx-1 text-xs ring-1 ring-inset text-scale-1100 ">#{tag}</span>
+                        ))}
                       </div>
                     </div>
                   </div>

@@ -7,16 +7,16 @@ const Nav = () => {
 
   return (
     <nav className="w-full border-b bg-scale-300 p-4">
-      <Link href="https://supabase.com/">
+      <Link href="/">
         <a className="flex">
           <Image
             src={
               isDarkMode
-                ? '/images/supabase-logo-wordmark--dark.svg'
-                : '/images/supabase-logo-wordmark--light.svg'
+                ? '/images/supabase-logo-wordmark--dark.png'
+                : '/images/supabase-logo-wordmark--light.png'
             }
-            alt="Supabase Logo"
-            height={24}
+            alt="AI Tool Dr Logo"
+            height={37}
             width={120}
           />
         </a>

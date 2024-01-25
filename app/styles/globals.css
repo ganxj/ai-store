@@ -223,3 +223,7 @@ table {
 .sbui-typography a {
   @apply break-words;
 }
+
+.bg-black{
+  background: #1a1414;
+}

@@ -1,31 +1,58 @@
 import { SupabaseClient } from '@supabase/supabase-js'
-import { Button, Form, Input, InputNumber, Select } from '@supabase/ui'
+import { Button, Form, Input, Typography, Select } from '@supabase/ui'
 import { useState } from 'react'
-import countries from '~/data/Countries.json'
-import { PartnerContact } from '~/types/partners'
+import { ProductContact } from '~/types/products'
+import { TagsInput } from "react-tag-input-component";
+import {input} from "sucrase/dist/types/parser/traverser/base";
 
 const INITIAL_VALUES = {
-  type: 'expert',
-  first: '',
-  last: '',
-  company: '',
-  size: '',
-  title: '',
+  type: 'tools',
+  name: '',
+  website_url: '',
+  description: '',
+  category: '',
+  developer: '',
   email: '',
-  phone: '',
-  country: 'US',
-  details: '',
+  logo: '',
+  images: [],
+  overview: '',
+  tags: [],
+  pricing_model: '',
+  status: 'wait_deal',
 }
 
 const validate = (values: any) => {
   const errors: any = {}
 
-  if (!values.first) {
-    errors.first = 'Required'
+  if (!values.name) {
+    errors.name = 'Required'
+  }
+  if (!values.website_url) {
+    errors.website_url = 'Required'
+  }else if (!/^https?:\/\/\S+$/i.test(values.website_url)){
+    errors.website_url = 'Invalid url'
   }
 
-  if (!values.last) {
-    errors.last = 'Required'
+  if (!values.description) {
+    errors.description = 'Required'
+  }
+  if (!values.category) {
+    errors.category = 'Required'
+  }
+  if (!values.developer) {
+    errors.developer = 'Required'
+  }
+  if (!values.email) {
+    errors.email = 'Required'
+  }
+  if (!values.logo) {
+    errors.logo = 'Required'
+  }
+  if (!values.overview) {
+    errors.overview = 'Required'
+  }
+  if (!values.pricing_model) {
+    errors.pricing_model = 'Required'
   }
 
   if (!values.email) {
@@ -39,22 +66,61 @@ const validate = (values: any) => {
 
 export default function BecomeAPartner({ supabase }: { supabase: SupabaseClient }) {
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false)
+  const [selected, setSelected] = useState([])
+  const [file, setFile] = useState()
+  const tagInputClass={"input":"bg-black"}
+  const pricing_model = ['', 'free' , 'free trial' , 'freemium' , 'paid' , 'price unknown']
 
-  const handleFormSubmit = async (values: any) => {
-    const { error } = await supabase.from<PartnerContact>('partner_contacts').insert(
+  const fileChange = async (event) =>{
+    console.log("file change")
+    console.log(event.target.files[0])
+    setFile(event.target.files[0])
+  }
+
+  const handleFormSubmit = async (values:any) => {
+
+    values.create_time = new Date().getTime()
+    values.tags = selected
+    values.logoFile = file
+    console.log(values)
+
+    let ext = values.logo.slice(((values.logo.lastIndexOf(".") - 1) >>> 0) + 2)
+    let random = Math.random().toString(36).substring(2);
+    let dataResult = {}
+
+    {
+      const {data, file_error} = await supabase.storage
+          .from('product_img_pub')
+          .upload("avatar/" + (random + "." + ext), file, {
+            cacheControl: '3600',
+            upsert: false
+          })
+      dataResult = data
+    }
+    {
+      const {data} = supabase
+          .storage
+          .from('product_img_pub')
+          .getPublicUrl(dataResult?.Key)
+      values.logoUrl = data?.publicURL
+    }
+
+    const { error } = await supabase.from<ProductContact>('partner_contacts').insert(
       [
         {
           type: values.type,
-          first: values.first,
-          last: values.last,
-          company: values.company,
-          size: Number(values.size),
-          title: values.title,
+          name: values.name,
+          website_url: values.website_url,
+          description: values.description,
+          category: values.category,
+          developer: values.developer,
           email: values.email,
-          website: values.email.split('@')[1],
-          phone: values.phone,
-          country: values.country,
-          details: values.details,
+          logo: values.logoUrl,
+          images: values.images,
+          tags: values.tags,
+          overview: values.overview,
+          pricing_model: values.pricing_model,
+          status: values.status,
         },
       ],
       { returning: 'minimal' }
@@ -69,115 +135,116 @@ export default function BecomeAPartner({ supabase }: { supabase: SupabaseClient 
   return (
     <div className="border-t">
       <div id="become-a-partner" className="max-w-2xl mx-auto space-y-12 py-12 px-6">
-        <h2 className="h2">Become a Partner</h2>
+        <h2 className="h2">Submit Ai Tool</h2>
 
         <Form initialValues={INITIAL_VALUES} validate={validate} onSubmit={handleFormSubmit}>
           {({ isSubmitting }: any) => (
             <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-              <div className="h-24 col-span-2">
-                <Select
-                  id="type"
-                  name="type"
-                  className="font-sans"
-                  label="What type of partner are you?"
-                  layout="vertical"
-                >
-                  <Select.Option value="expert" selected={true}>
-                    Expert (Agency &amp; Consulting)
-                  </Select.Option>
-                  <Select.Option value="technology">Technology</Select.Option>
-                </Select>
-              </div>
-
               <div className="h-24">
                 <Input
-                  label="First Name *"
-                  id="first"
-                  name="first"
+                  label="Name *"
+                  id="name"
+                  name="name"
                   layout="vertical"
-                  placeholder="Jane"
+                  placeholder="ChatGpt"
                 />
               </div>
 
               <div className="h-24">
                 <Input
-                  label="Last Name *"
-                  id="last"
-                  name="last"
+                  label="Website Url *"
+                  id="website_url"
+                  name="website_url"
                   layout="vertical"
-                  placeholder="Doe"
+                  placeholder="https://**"
                 />
               </div>
 
               <div className="h-24">
                 <Input
-                  label="Company Name"
-                  id="company"
-                  name="company"
+                  label="Category *"
+                  id="category"
+                  name="category"
                   layout="vertical"
-                  placeholder="Supa Inc."
-                />
-              </div>
-
-              <div className="h-24">
-                <InputNumber
-                  label="Company Size"
-                  id="size"
-                  name="size"
-                  layout="vertical"
-                  placeholder="1"
+                  placeholder="Chat"
                 />
               </div>
 
               <div className="h-24">
                 <Input
-                  label="Job Title"
-                  id="title"
-                  name="title"
+                  label="Developer *"
+                  id="developer"
+                  name="developer"
                   layout="vertical"
-                  placeholder="CEO"
+                  placeholder=""
                 />
               </div>
 
               <div className="h-24">
                 <Input
-                  label="Business email *"
-                  id="email"
-                  name="email"
-                  layout="vertical"
-                  placeholder="janedoe@example.sg"
-                />
-              </div>
-
-              <div className="h-24">
-                <Input
-                  label="Phone Number"
-                  id="phone"
-                  name="phone"
-                  layout="vertical"
-                  placeholder="+65 1234 1234"
+                    label="Business email *"
+                    id="email"
+                    name="email"
+                    layout="vertical"
+                    placeholder="janedoe@example.sg"
                 />
               </div>
 
               <div className="h-24">
                 <Select
-                  label="Country / Main Timezone"
-                  id="country"
-                  name="country"
-                  layout="vertical"
+                    label="Pricing Model *"
+                    id="pricing_model"
+                    name="pricing_model"
+                    layout="vertical"
                 >
-                  {countries.map(({ code, name }) => (
-                    <Select.Option key={code} value={code}>{name}</Select.Option>
+                  {pricing_model.map((model) => (
+                      <Select.Option key={model} value={model}>{model}</Select.Option>
                   ))}
                 </Select>
               </div>
 
+              <div className="h-24">
+                <Input
+                    label="Logo *"
+                    id="logo"
+                    name="logo"
+                    type="file"
+                    layout="vertical"
+                    onChange={fileChange}
+                />
+              </div>
+
+
               <div className="col-span-2">
+                <Typography.Text type="secondary">
+                  Tags
+                </Typography.Text>
+                <TagsInput
+                    value={selected}
+                    onChange={setSelected}
+                    name="tags"
+                    placeHolder="tags"
+                    // classNames={tagInputClass}
+                />
+              </div>
+
+
+              <div className="col-span-2 mt-4">
                 <Input.TextArea
-                  id="details"
-                  name="details"
-                  label="Additional Details"
-                  placeholder="Tell us about your projects, clients, and technology..."
+                  id="description"
+                  name="description"
+                  label="Brief Introduction *"
+                  placeholder="Please briefly introduce your product..."
+                  rows={2}
+                />
+              </div>
+
+              <div className="col-span-2 mt-4">
+                <Input.TextArea
+                  id="overview"
+                  name="overview"
+                  label="Overview *"
+                  placeholder="Please provide a detailed introduction to your product..."
                   rows={10}
                 />
               </div>
