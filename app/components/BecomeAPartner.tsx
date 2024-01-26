@@ -71,7 +71,7 @@ export default function BecomeAPartner({ supabase }: { supabase: SupabaseClient 
   const tagInputClass={"input":"bg-black"}
   const pricing_model = ['', 'free' , 'free trial' , 'freemium' , 'paid' , 'price unknown']
 
-  const fileChange = async (event) =>{
+  const fileChange = async (event:any) =>{
     console.log("file change")
     console.log(event.target.files[0])
     setFile(event.target.files[0])
@@ -86,15 +86,19 @@ export default function BecomeAPartner({ supabase }: { supabase: SupabaseClient 
 
     let ext = values.logo.slice(((values.logo.lastIndexOf(".") - 1) >>> 0) + 2)
     let random = Math.random().toString(36).substring(2);
-    let dataResult = {}
+    let dataResult = {
+      Key: ""
+    }
 
     {
-      const {data, file_error} = await supabase.storage
+      const {data, error} = await supabase.storage
           .from('product_img_pub')
+          // @ts-ignore
           .upload("avatar/" + (random + "." + ext), file, {
             cacheControl: '3600',
             upsert: false
           })
+      // @ts-ignore
       dataResult = data
     }
     {
@@ -221,6 +225,7 @@ export default function BecomeAPartner({ supabase }: { supabase: SupabaseClient 
                 </Typography.Text>
                 <TagsInput
                     value={selected}
+                    // @ts-ignore
                     onChange={setSelected}
                     name="tags"
                     placeHolder="tags"
@@ -263,7 +268,7 @@ export default function BecomeAPartner({ supabase }: { supabase: SupabaseClient 
           )}
         </Form>
 
-        {formSubmitted && <h3 className="h3">Thanks, we'll reach out to you shortly 👁⚡️👁</h3>}
+        {formSubmitted && <h3 className="h3">Thank you, we will review it as soon as possible. 👁⚡️👁</h3>}
       </div>
     </div>
   )
