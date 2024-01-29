@@ -1,6 +1,6 @@
 import { IconChevronLeft, IconExternalLink } from '@supabase/ui'
 import { marked } from 'marked'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import {GetServerSideProps, GetStaticPaths, GetStaticProps} from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -208,29 +208,29 @@ function Partner({ partner }: { partner: Product }) {
 }
 
 // This function gets called at build time
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: slugs } = await supabase
-    .from<Product>('partners')
-    .select('slug')
-
-  const paths: {
-    params: { slug: string }
-    locale?: string | undefined
-  }[] =
-    slugs?.map(({ slug }) => ({
-      params: {
-        slug,
-      },
-    })) ?? []
-
-  return {
-    paths,
-    fallback: 'blocking',
-  }
-}
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const { data: slugs } = await supabase
+//     .from<Product>('partners')
+//     .select('slug')
+//
+//   const paths: {
+//     params: { slug: string }
+//     locale?: string | undefined
+//   }[] =
+//     slugs?.map(({ slug }) => ({
+//       params: {
+//         slug,
+//       },
+//     })) ?? []
+//
+//   return {
+//     paths,
+//     fallback: 'blocking',
+//   }
+// }
 
 // This also gets called at build time
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   let { data: partner } = await supabase
     .from<Product>('partners')
     .select('*')
@@ -247,8 +247,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   partner.overview = marked.parse(partner.overview)
 
   return {
-    props: { partner },
-    revalidate: 18000, // In seconds - refresh every 5 hours
+    props: { partner }
+    // revalidate: 18000, // In seconds - refresh every 5 hours
   }
 }
 
