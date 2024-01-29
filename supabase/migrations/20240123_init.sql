@@ -16,6 +16,7 @@ create table partner_contacts (
   overview text not null,
   tags text[] not null,
   pricing_model pricing_model_type not null,
+  have_detail boolean default false,
   create_time timestamp with time zone default timezone('utc'::text, now()) not null,
   status status_type not null
 );

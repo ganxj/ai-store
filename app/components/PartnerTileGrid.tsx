@@ -20,7 +20,7 @@ export default function PartnerTileGrid({
               <Link key={p.slug} href={p.have_detail?`/${p.slug}`:p.website_url}>
                 <a
                   className="
-                "
+                " rel={p.have_detail?"":"nofollow"}
                 >
                   <div
                     className="
