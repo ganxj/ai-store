@@ -87,22 +87,22 @@ function Partner({ partner }: { partner: Product }) {
                   },
                 }}
               >
-                {partner.images.map((image: any, i: number) => {
-                  return (
-                    <SwiperSlide key={i}>
+                {/*{partner.images.map((image: any, i: number) => {*/}
+                {/*  return (*/}
+                    <SwiperSlide >
                       <div className="relative ml-3 mr-3 block cursor-move overflow-hidden rounded-md">
                         <Image
                           layout="responsive"
                           objectFit="contain"
                           width={1460}
                           height={960}
-                          src={image}
+                          src={partner.logo}
                           alt={partner.name}
                         />
                       </div>
                     </SwiperSlide>
-                  )
-                })}
+                  {/*)*/}
+                {/*})}*/}
               </Swiper>
             </div>
 
