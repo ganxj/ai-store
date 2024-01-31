@@ -21,6 +21,10 @@ module.exports = {
         protocol: 'https',
         hostname: 'crewai.net',
       },
+      {
+        protocol: 'https',
+        hostname: '**.aliyuncs.com',
+      },
     ],
   },
   async redirects() {

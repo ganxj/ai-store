@@ -143,11 +143,7 @@ function Partner({ partner }: { partner: Product }) {
                   <div className="flex items-center justify-between py-2">
                     <span className="text-scale-900">Category</span>
                     <Link
-                      href={`/partners/${
-                        partner.type === 'tools'
-                          ? 'integrations'
-                          : 'experts'
-                      }#${partner.category.toLowerCase()}`}
+                      href={`/#${partner.category.toLowerCase()}`}
                     >
                       <a className="text-brand-900 transition-colors hover:text-brand-800">
                         {partner.category}
