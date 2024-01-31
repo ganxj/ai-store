@@ -17,7 +17,7 @@ export default function PartnerTileGrid({
           {!hideCategories && <h2 className="h2">{category}</h2>}
           <div className="grid  gap-5 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:max-w-none">
             {partnersByCategory[category].map((p) => (
-              <Link key={p.slug} href={p.have_detail?`/${p.slug}`:p.website_url}>
+              <Link key={p.slug} href={p.have_detail?`/tool/${p.slug}`:p.website_url}>
                 <a
                   className="
                 " rel={p.have_detail?"":"nofollow"} target={p.have_detail?"_self":"_blank"}

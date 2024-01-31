@@ -9,7 +9,7 @@ import Layout from '~/components/Layout'
 import SectionContainer from '~/components/SectionContainer'
 import supabase from '~/lib/supabase'
 import { Product } from '~/types/products'
-import Error404 from './404'
+import Error404 from '../404'
 
 function Partner({ partner }: { partner: Product }) {
   if (!partner) return <Error404 />
