@@ -116,7 +116,7 @@ function IntegrationPartnersPage(props: Props) {
 
       console.log(partners)
       console.log(list)
-      list.forEach(e=>{
+      list?.forEach(e=>{
         partners.push(e)
       })
       console.log(partners)
