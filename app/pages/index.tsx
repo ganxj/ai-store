@@ -11,6 +11,7 @@ import PartnerTileGrid from '~/components/PartnerTileGrid'
 import SectionContainer from '~/components/SectionContainer'
 import supabase from '~/lib/supabase'
 import { Product } from '~/types/products'
+import Footer from "~/components/Footer";
 
 export async function getStaticProps() {
   const { data: partners, error } = await supabase
@@ -19,12 +20,20 @@ export async function getStaticProps() {
     .eq('approved', true)
     .eq('type', 'tools')
     .order('category')
-    .order('name')
+    .order('name').limit(99)
   if (error) console.log(partners, error)
+
+  // const {count, error:err} = await supabase
+  //     .from<Product>('partners')
+  //     .select('*', {count: 'exact'})
+  //     .eq('approved', true)
+  //     .eq('type', 'tools')
+  // if (err) console.log(count, err)
 
   return {
     props: {
       partners: partners ?? [],
+      // count: count ?? 0,
     },
     // TODO: consider using Next.js' On-demand Revalidation with Supabase function hooks instead
     revalidate: 18000, // In seconds - refresh every 5 hours
@@ -57,19 +66,26 @@ function IntegrationPartnersPage(props: Props) {
   const meta_description = `Effortlessly discover the tools you need with our AI Tool Dr platform. Streamlining your search for AI resources, we make finding tools a breeze`
 
   const [search, setSearch] = useState('')
+  const [current, setCurrent] = useState(1)
   const [debouncedSearchTerm] = useDebounce(search, 300)
+  const [debouncedPageTerm] = useDebounce(current, 10)
   const [isSearching, setIsSearching] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+
+    console.log("useEffect")
+
     const searchPartners = async () => {
       setIsSearching(true)
 
       let query = supabase
         .from<Product>('partners')
-        .select('*')
-        .eq('approved', true)
-        .order('category')
-        .order('name')
+          .select('*')
+          .eq('approved', true)
+          .eq('type', 'tools')
+          .order('category')
+          .order('name')
 
       if (search.trim()) {
         query = query
@@ -85,20 +101,57 @@ function IntegrationPartnersPage(props: Props) {
       return partners
     }
 
-    if (search.trim() === '') {
+    const morePartners = async () => {
+      setIsLoading(true)
+      let query = supabase
+          .from<Product>('partners')
+          .select('*')
+          .eq('approved', true)
+          .eq('type', 'tools')
+          .order('category')
+          .order('name')
+          .range((current-1)*100 , current*100)
+
+      const { data: list } = await query
+
+      console.log(partners)
+      console.log(list)
+      list.forEach(e=>{
+        partners.push(e)
+      })
+      console.log(partners)
+
+      return partners
+    }
+
+    if (search.trim() === '' && current === 1) {
       setIsSearching(false)
       setPartners(initialPartners)
+      setCurrent(1)
       return
     }
 
-    searchPartners().then((partners) => {
-      if (partners) {
-        setPartners(partners)
-      }
+    if (search.trim() !== '') {
+      searchPartners().then((partners) => {
+        if (partners) {
+          setPartners(partners)
+        }
+        setIsSearching(false)
+      })
+    }
 
-      setIsSearching(false)
-    })
-  }, [debouncedSearchTerm, router])
+
+    if (search.trim() === '' && current !== 1) {
+      console.log("morePartners")
+      morePartners().then((list) => {
+        if (list) {
+          setPartners(list)
+        }
+        setIsLoading(false)
+      })
+    }
+
+  }, [debouncedPageTerm, debouncedSearchTerm, router])
 
   return (
     <>
@@ -198,6 +251,32 @@ function IntegrationPartnersPage(props: Props) {
           {/* Become a partner form */}
         </SectionContainer>
         {/*<BecomeAPartner supabase={supabase} />*/}
+
+
+        <div className="flex w-full justify-center">
+          {isLoading?(
+            <div>
+              <span className="mr-1 animate-spin text-white">
+                <IconLoader/>
+              </span>
+            </div>
+          ):(<div></div>)
+          }
+        </div>
+
+        <div className="grid grid-cols-2 gap-8 lg:grid-cols-1">
+          <button
+              onClick={() =>
+                  // console.log(current+1)
+                  setCurrent(current+1)
+              }
+              className="block text-base text-scale-1100"
+          >
+            view More
+          </button>
+        </div>
+
+
       </Layout>
     </>
   )
