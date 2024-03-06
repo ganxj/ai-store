@@ -43,7 +43,7 @@ export default function PartnerTileGrid({
                             height={400}
                             className="w-60 h-40 bg-gray-300 transition-all"
                             src={p.logo}
-                            alt={p.name}
+                            alt={p.name + "-aitooldr.com"}
                         />
                       </div>
                     </div>
