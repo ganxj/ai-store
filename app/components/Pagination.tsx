@@ -1,6 +1,8 @@
 import {IconArrowLeft , IconArrowRight} from '@supabase/ui'
 import Link from "next/link";
 
+export const pageSize = 5
+
 interface Props {
     currentPage: number;
     totalPages: number;

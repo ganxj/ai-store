@@ -18,7 +18,7 @@ function PostListPage() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Layout>
-                <BlogPartner  />
+                <BlogPartner currentPage={1} />
             </Layout>
         </>
     )

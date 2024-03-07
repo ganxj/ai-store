@@ -10,9 +10,15 @@ import BlogPartner from "~/components/BlogPartner";
 import React from "react";
 import {IconChevronLeft , IconArrowRight} from '@supabase/ui'
 import {useRouter} from "next/router";
+import {pageSize} from "~/components/Pagination";
 
 function Partner({post , page}: { post: Post , page:number}) {
+    const totalPage = allPosts.length%pageSize==0?allPosts.length/pageSize:Math.floor(allPosts.length/pageSize)+1
     if (page){
+        if (page > totalPage){
+            return (<Error404/>)
+        }
+
         return (
             <>
                 <Head>
@@ -78,7 +84,7 @@ function Partner({post , page}: { post: Post , page:number}) {
 
 // This also gets called at build time
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
-    const isNumeric = (str) => {
+    const isNumeric = (str:any) => {
         return /^\d+$/.test(str);
     }
 

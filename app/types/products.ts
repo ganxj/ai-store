@@ -44,9 +44,13 @@ export interface Post {
   title: string
   description: string
   date: string
-  body: string
+  body: MyBody
   slug: string
   slugAsParams: string
   currentPage: number
+}
+
+export interface MyBody {
+  code: string
 }
 

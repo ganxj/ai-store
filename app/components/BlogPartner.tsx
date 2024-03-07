@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {allPosts, Post} from "~/.contentlayer/generated"
 import Datetime from "~/components/Datetime";
-import Pagination from "~/components/Pagination";
+import Pagination, {pageSize} from "~/components/Pagination";
 
 interface PageProps {
     currentPage: number
@@ -11,8 +11,10 @@ function BlogPartner({currentPage}:PageProps) {
     if (!currentPage){
         currentPage = 1
     }
-    let pageSize = 3
+    const totalPage = allPosts.length%pageSize==0?allPosts.length/pageSize:Math.floor(allPosts.length/pageSize)+1
+
     allPosts.sort((a, b) => {
+        // @ts-ignore
         return new Date(b.date) - new Date(a.date);
     });
 
@@ -36,7 +38,7 @@ function BlogPartner({currentPage}:PageProps) {
                     </article>
                 ))}
 
-                <Pagination currentPage={currentPage} totalPages={(allPosts.length%pageSize==0?allPosts.length/pageSize:Math.floor(allPosts.length/pageSize)+1)} prevUrl={currentPage-1==1?"/posts/":"/posts/" + (currentPage-1)} nextUrl={"/posts/" + ((++currentPage))}/>
+                <Pagination currentPage={currentPage} totalPages={totalPage} prevUrl={currentPage-1==1?"/posts/":"/posts/" + (currentPage-1)} nextUrl={"/posts/" + ((++currentPage))}/>
 
             </div>
         </div>
