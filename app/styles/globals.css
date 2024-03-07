@@ -227,3 +227,20 @@ table {
 .bg-black{
   background: #1a1414;
 }
+
+.post-line-text{
+  text-underline-offset: 4px;
+  text-decoration-style: dashed;
+  color:rgb(0,108,172);
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.dark .post-line-text {
+  text-underline-offset: 4px;
+  text-decoration-style: dashed;
+  color: rgb(255, 141, 61);
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}

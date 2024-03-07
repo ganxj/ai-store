@@ -1,5 +1,7 @@
+
+const { withContentlayer } = require("next-contentlayer");
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
@@ -42,5 +44,7 @@ module.exports = {
       // },
     ]
   },
-
+  swcMinify: true,
 }
+
+module.exports = withContentlayer(nextConfig);

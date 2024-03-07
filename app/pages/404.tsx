@@ -26,11 +26,11 @@ const Error404 = () => {
                   <Image
                     src={
                       isDarkMode
-                        ? '/images/supabase-logo-wordmark--dark.svg'
-                        : '/images/supabase-logo-wordmark--light.svg'
+                        ? '/images/supabase-logo-wordmark--dark.png'
+                        : '/images/supabase-logo-wordmark--light.png'
                     }
-                    alt="Supabase Logo"
-                    height={24}
+                    alt="ai-tool-dr"
+                    height={37}
                     width={120}
                   />
                 </a>
@@ -61,9 +61,11 @@ const Error404 = () => {
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/">
+              <a >
               <Button as="a" size="small" className="text-white">
                 Head back
               </Button>
+              </a>
             </Link>
           </div>
         </div>

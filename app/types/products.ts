@@ -35,3 +35,18 @@ export interface ProductContact {
   create_time: number
   status: 'wait_deal' | 'refuse' | 'employ'
 }
+export interface Blog {
+  id: string
+  title: string
+  date: string
+}
+export interface Post {
+  title: string
+  description: string
+  date: string
+  body: string
+  slug: string
+  slugAsParams: string
+  currentPage: number
+}
+
