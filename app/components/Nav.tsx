@@ -18,7 +18,7 @@ const Nav = () => {
                             }
                             alt="AI Tool Dr Logo"
                             height={37}
-                            width={120}
+                            width={130}
                         />
                     </a>
                 </Link>
