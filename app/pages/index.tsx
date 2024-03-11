@@ -20,7 +20,7 @@ export async function getStaticProps() {
     .eq('approved', true)
     .eq('type', 'tools')
     .order('category')
-    .order('name').limit(99)
+    .order('name').limit(30)
   if (error) console.log(partners, error)
 
   // const {count, error:err} = await supabase
@@ -110,7 +110,7 @@ function IntegrationPartnersPage(props: Props) {
           .eq('type', 'tools')
           .order('category')
           .order('name')
-          .range((current-1)*100 , current*100)
+          .range((current-1)*30 , current*30)
 
       const { data: list } = await query
 
