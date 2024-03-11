@@ -44,7 +44,7 @@ const PartnerLinkBox = ({
           {icon}
         </div>
         <div>
-          <h5 className="text-base mb-2 text-scale-1200">{title}</h5>
+          <h3 className="text-base mb-2 text-scale-1200">{title}</h3>
           <p className="p text-sm">{description}</p>
         </div>
       </div>
