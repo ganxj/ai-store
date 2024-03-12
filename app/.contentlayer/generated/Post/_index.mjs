@@ -2,7 +2,7 @@
 
 import posts__aomniAiComprehensiveReviewMdx from './posts__aomni-ai-comprehensive-review.mdx.json' assert { type: 'json' }
 import posts__comprehensiveGuideToNightcafeAiMdx from './posts__comprehensive-guide-to-nightcafe-ai.mdx.json' assert { type: 'json' }
-import posts__triposr_3dObjectGenerationModelMdx from './posts__triposr-3d-object-generation-model.mdx.json' assert { type: 'json' }
 import posts__maxtextRevolutionizingLargelanguageModelsMdx from './posts__maxtext-revolutionizing-largelanguage-models.mdx.json' assert { type: 'json' }
+import posts__triposr_3dObjectGenerationModelMdx from './posts__triposr-3d-object-generation-model.mdx.json' assert { type: 'json' }
 
-export const allPosts = [posts__aomniAiComprehensiveReviewMdx, posts__comprehensiveGuideToNightcafeAiMdx, posts__triposr_3dObjectGenerationModelMdx, posts__maxtextRevolutionizingLargelanguageModelsMdx]
+export const allPosts = [posts__aomniAiComprehensiveReviewMdx, posts__comprehensiveGuideToNightcafeAiMdx, posts__maxtextRevolutionizingLargelanguageModelsMdx, posts__triposr_3dObjectGenerationModelMdx]

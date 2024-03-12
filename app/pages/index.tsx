@@ -12,6 +12,11 @@ import SectionContainer from '~/components/SectionContainer'
 import supabase from '~/lib/supabase'
 import { Product } from '~/types/products'
 import Footer from "~/components/Footer";
+import BlogPartner from "~/components/BlogPartner";
+import Link from "next/link";
+import Datetime from "~/components/Datetime";
+import {allPosts} from "contentlayer/generated";
+import {pageSize} from "~/components/Pagination";
 
 export async function getStaticProps() {
   const { data: partners, error } = await supabase
@@ -153,6 +158,14 @@ function IntegrationPartnersPage(props: Props) {
 
   }, [debouncedPageTerm, debouncedSearchTerm, router])
 
+
+  allPosts.sort((a, b) => {
+    // @ts-ignore
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  const postsInit = allPosts.slice(0,5)
+
   return (
     <>
       <Head>
@@ -279,12 +292,42 @@ function IntegrationPartnersPage(props: Props) {
                   // console.log(current+1)
                   setCurrent(current+1)
               }
-              className="block text-base text-scale-1100"
+              className="mb-10 block text-base text-scale-1100"
           >
-            view More
+            View More >>
           </button>
         </div>
 
+        <hr/>
+
+        <div className="max-w-2xl mx-auto space-y-12 py-12 px-6">
+          <h2 className="h1">Recent Posts</h2>
+          {postsInit.map((post) => (
+              <article key={post.slug}>
+                <Link href={post.slug}>
+                  <a className="post-line-text"><h3>{post.title}</h3></a>
+                </Link>
+                <div className="mt-2">
+                  <Datetime pubDatetime={post.date} modDatetime={post.date} />
+                </div>
+                {post.description && <p className="p text-m">{post.description}</p>}
+              </article>
+          ))}
+
+        </div>
+
+
+        <div className="grid grid-cols-2 gap-8 lg:grid-cols-1">
+          <button
+              onClick={() =>
+                  // console.log(current+1)
+                  router.push(`/posts`)
+              }
+              className="mb-10 block text-base text-scale-1100"
+          >
+            All Posts >>
+          </button>
+        </div>
 
       </Layout>
     </>
