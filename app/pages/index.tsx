@@ -165,6 +165,8 @@ function IntegrationPartnersPage(props: Props) {
   });
 
   const postsInit = allPosts.slice(0,5)
+  const viewMoreText = "View More >>"
+  const allPostText = "All Posts >>"
 
   return (
     <>
@@ -294,7 +296,7 @@ function IntegrationPartnersPage(props: Props) {
               }
               className="mb-10 block text-base text-scale-1100"
           >
-            View More >>
+            {viewMoreText}
           </button>
         </div>
 
@@ -325,7 +327,7 @@ function IntegrationPartnersPage(props: Props) {
               }
               className="mb-10 block text-base text-scale-1100"
           >
-            All Posts >>
+            {allPostText}
           </button>
         </div>
 
