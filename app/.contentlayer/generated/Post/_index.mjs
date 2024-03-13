@@ -6,5 +6,6 @@ import posts__maxtextRevolutionizingLargelanguageModelsMdx from './posts__maxtex
 import posts__triposr_3dObjectGenerationModelMdx from './posts__triposr-3d-object-generation-model.mdx.json' assert { type: 'json' }
 import posts__magiComicsToTextcomicsToScriptMdx from './posts__magi-comics-to-textcomics-to-script.mdx.json' assert { type: 'json' }
 import posts__optimizerAiGeneratesVideoAndSoundEffectsMdx from './posts__optimizer-ai-generates-video-and-sound-effects.mdx.json' assert { type: 'json' }
+import posts__moviellmSynthesizedMoviesMdx from './posts__moviellm-synthesized-movies.mdx.json' assert { type: 'json' }
 
-export const allPosts = [posts__aomniAiComprehensiveReviewMdx, posts__comprehensiveGuideToNightcafeAiMdx, posts__maxtextRevolutionizingLargelanguageModelsMdx, posts__triposr_3dObjectGenerationModelMdx, posts__magiComicsToTextcomicsToScriptMdx, posts__optimizerAiGeneratesVideoAndSoundEffectsMdx]
+export const allPosts = [posts__aomniAiComprehensiveReviewMdx, posts__comprehensiveGuideToNightcafeAiMdx, posts__maxtextRevolutionizingLargelanguageModelsMdx, posts__triposr_3dObjectGenerationModelMdx, posts__magiComicsToTextcomicsToScriptMdx, posts__optimizerAiGeneratesVideoAndSoundEffectsMdx, posts__moviellmSynthesizedMoviesMdx]
